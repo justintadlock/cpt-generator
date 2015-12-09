@@ -212,6 +212,10 @@ final class CPT_Generator_Plugin {
 		<script type="text/html" id="tmpl-cptg-form">
 			<?php require_once( $this->dir_path . 'tmpl/form.php' ); ?>
 		</script>
+
+		<script type="text/html" id="tmpl-cptg-output">
+			<?php require_once( $this->dir_path . 'tmpl/output.php' ); ?>
+		</script>
 	<?php }
 
 	/**
@@ -228,6 +232,8 @@ final class CPT_Generator_Plugin {
 			<h1><?php _e( 'Custom Post Type Generator', 'cpt-generator' ); ?></h1>
 
 			<div class="cptg-form-wrap"></div>
+
+			<div class="cptg-output-wrap"></div>
 
 		</div><!-- .wrap -->
 
