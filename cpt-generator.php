@@ -183,17 +183,13 @@ final class CPT_Generator_Plugin {
 
 			// Localize our script with some text we want to pass in.
 			$labels = array(
-				'post_type_singular' => esc_html__( 'Post Type:', 'cpt-generator' ),
-				'post_type_plural'   => esc_html__( 'Plural:', 'cpt-generator' )
+				'type_singular'   => esc_html__( 'Post Type:', 'cpt-generator' ),
+				'type_plural'     => esc_html__( 'Post Type Plural:', 'cpt-generator' ),
+				'label_singular'  => esc_html__( 'Singular Label:', 'cpt-generator' ),
+				'label_plural'    => esc_html__( 'Plural Label:', 'cpt-generator' ),
 			);
 
-			$data = array(
-				'labels'             => $labels,
-				'post_type_singular' => 'example',
-				'post_type_plural'   => 'examples',
-			);
-
-			wp_localize_script( 'cpt-generator', 'cptg_data', $data );
+			wp_localize_script( 'cpt-generator', 'cptg_form_labels', $labels );
 
 			// Load Underscrore templates.
 			add_action( 'admin_footer', array( $this, 'load_templates' ) );

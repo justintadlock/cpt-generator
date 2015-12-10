@@ -19,39 +19,39 @@ function my_register_post_types() {
 		'can_export'          => true,
 		'delete_with_user'    => false,
 		'hierarchical'        => false,
-		'has_archive'         => '{{ data.post_type_plural }}',
-		'query_var'           => '{{ data.post_type }}',
-		'capability_type'     => '{{ data.post_type }}',
+		'has_archive'         => '{{ data.type_plural }}',
+		'query_var'           => '{{ data.type_singular }}',
+		'capability_type'     => '{{ data.type_singular }}',
 		'map_meta_cap'        => true,
 
 		'capabilities' => array(
 
 			// meta caps (don't assign these to roles)
-			'edit_post'              => 'edit_{{ data.cap_singular }}',
-			'read_post'              => 'read_{{ data.cap_singular }}',
-			'delete_post'            => 'delete_{{ data.cap_singular }}',
+			'edit_post'              => 'edit_{{ data.type_singular }}',
+			'read_post'              => 'read_{{ data.type_singular }}',
+			'delete_post'            => 'delete_{{ data.type_singular }}',
 
 			// primitive/meta caps
-			'create_posts'           => 'create_{{ data.cap_plural }}',
+			'create_posts'           => 'create_{{ data.type_plural }}',
 
 			// primitive caps used outside of map_meta_cap()
-			'edit_posts'             => 'edit_{{ data.cap_plural }}',
-			'edit_others_posts'      => 'edit_others_{{ data.cap_plural }}',
-			'publish_posts'          => 'publish_{{ data.cap_plural }}',
-			'read_private_posts'     => 'read_private_{{ data.cap_plural }}',
+			'edit_posts'             => 'edit_{{ data.type_plural }}',
+			'edit_others_posts'      => 'edit_others_{{ data.type_plural }}',
+			'publish_posts'          => 'publish_{{ data.type_plural }}',
+			'read_private_posts'     => 'read_private_{{ data.type_plural }}',
 
 			// primitive caps used inside of map_meta_cap()
 			'read'                   => 'read',
-			'delete_posts'           => 'delete_{{ data.cap_plural }}',
-			'delete_private_posts'   => 'delete_private_{{ data.cap_plural }}',
-			'delete_published_posts' => 'delete_published_{{ data.cap_plural }}',
-			'delete_others_posts'    => 'delete_others_{{ data.cap_plural }}',
-			'edit_private_posts'     => 'edit_private_{{ data.cap_plural }}',
-			'edit_published_posts'   => 'edit_{{ data.cap_plural }}'
+			'delete_posts'           => 'delete_{{ data.type_plural }}',
+			'delete_private_posts'   => 'delete_private_{{ data.type_plural }}',
+			'delete_published_posts' => 'delete_published_{{ data.type_plural }}',
+			'delete_others_posts'    => 'delete_others_{{ data.type_plural }}',
+			'edit_private_posts'     => 'edit_private_{{ data.type_plural }}',
+			'edit_published_posts'   => 'edit_{{ data.type_plural }}'
 		),
 
 		'rewrite' => array(
-			'slug'       => '{{ data.post_type }}',
+			'slug'       => '{{ data.type_singular }}',
 			'with_front' => false,
 			'pages'      => true,
 			'feeds'      => true,
@@ -103,5 +103,5 @@ function my_register_post_types() {
 	);
 
 	// Register the post type.
-	register_post_type( '{{ data.post_type }}', $args );
+	register_post_type( '{{ data.type_singular }}', $args );
 }</code></pre>

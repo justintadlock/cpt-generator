@@ -1,55 +1,80 @@
 jQuery( document ).ready( function() {
 
-	var form_template = wp.template( 'cptg-form' );
+	// Store the form fields.
+	var field_type_singular = 'input.cptg-field-post-type-singular';
+	var field_type_plural   = 'input.cptg-field-post-type-plural';
+
+	// Underscore templates.
+	var form_template   = wp.template( 'cptg-form'   );
 	var output_template = wp.template( 'cptg-output' );
 
-	jQuery( '.cptg-form-wrap' ).append( form_template( cptg_data ) );
+	// Data to pass to the form template.
+	var form_data = {
+		type_singular  : 'example',
+		type_plural    : '',
+		label_singular : '',
+		label_plural   : '',
+		labels         : cptg_form_labels
+	}
 
-	//console.log( cptg_data );
-
+	// Data to pass to the output template.
 	var output_data = {
-		copy_paste       : '<!-- there be dragons -->',
-		post_type        : cptg_data.post_type_singular,
-		post_type_plural : cptg_data.post_type_plural,
-		cap_singular     : cptg_data.post_type_singular,
-		cap_plural       : cptg_data.post_type_singular + 's'
+		type_singular : form_data.type_singular,
+		type_plural   : form_data.type_plural,
+		labels        : form_data.labels
 	};
 
+	// Print the templates to the page.
+	jQuery( '.cptg-form-wrap'   ).html( form_template(   form_data   ) );
 	jQuery( '.cptg-output-wrap' ).html( output_template( output_data ) );
 
+	// Function to sanitize post type name.
+	// @todo Limit to 20 characters.
+	function cptg_sanitize_post_type( post_type ) {
 
-	function cptg_print_post_type( slug ) {
+		return post_type.toLowerCase().trim().replace( /<.*?>/g, '' ).replace( /\s/g, '_' ).replace( /[^a-zA-Z0-9_]/g, '' );
+	}
 
-		// Sanitize the role.
-		slug = slug.toLowerCase().trim().replace( /<.*?>/g, '' ).replace( /\s/g, '_' ).replace( /[^a-zA-Z0-9_]/g, '' );
+	// Updates the output template when we get a new post type name.
+	function cptg_update_type_singular( post_type ) {
 
-		output_data.post_type = slug;
-		output_data.cap_singular = slug;
-		output_data.cap_plural = slug + 's';
-		output_data.post_type_plural = slug + 's';
+		post_type = cptg_sanitize_post_type( post_type );
 
-		// Add the text.
+		output_data.type_singular = post_type;
+
+		// If there's no plural value, auto-create one by appending an "s" to the post type name.
+		if ( ! jQuery( field_type_plural ).val() )
+			output_data.type_plural   = post_type + 's';
+
+		// Update output template.
 		jQuery( '.cptg-output-wrap' ).html( output_template( output_data ) );
-	};
+	}
 
-	// Check the role name input box for key presses.
-	jQuery( 'input.cptg-field-post-type-singular' ).keyup(
+	// Updates the output template when we get a new post type name.
+	function cptg_update_type_plural( post_type ) {
+
+		post_type = cptg_sanitize_post_type( post_type );
+
+		output_data.type_plural = post_type;
+
+		// Update output template.
+		jQuery( '.cptg-output-wrap' ).html( output_template( output_data ) );
+	}
+
+	// Check the type singular input box for key presses.
+	jQuery( field_type_singular ).keyup(
 		function() {
 
-			//if ( ! jQuery( 'input.cptg-field-post-type-singular' ).val() )
-			//	alert( this.value );
-				cptg_print_post_type( this.value );
+			cptg_update_type_singular( this.value );
 		}
 	); // .keyup
 
+	// Check the type plural input box for key presses.
+	jQuery( field_type_plural ).keyup(
+		function() {
 
-
-
-
-
-
-
-
-
+			cptg_update_type_plural( this.value );
+		}
+	); // .keyup
 
 } ); // ready()
